@@ -1,4 +1,4 @@
-import LoginModal from "./LoginModal";
+import AuthModal from "./AuthModal";
 
 export default function navBar(){
     return(
@@ -8,8 +8,8 @@ export default function navBar(){
             </a>
             <div>
             <div className='flex'>
-              <LoginModal isSignin={true}/>
-              <LoginModal isSignin={false}/>
+              <AuthModal isSignin={true}/>
+              <AuthModal isSignin={false}/>
             </div>
             </div>
         </nav>
