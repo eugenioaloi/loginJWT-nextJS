@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import AuthModalInputs from './AuthModalInput';
+import useAuth from '../../../hooks/useAuth';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -20,6 +21,8 @@ export default function AuthModal({isSignin}:{isSignin: boolean}) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const {signin, signup} = useAuth;
+  
 
   const renderContent = (isSigninContent: String, isSignupContent: String ) =>{
     return isSignin?isSigninContent:isSignupContent;
@@ -63,6 +66,22 @@ export default function AuthModal({isSignin}:{isSignin: boolean}) {
 
   }, [inputs])
 
+  const handleClick = () =>{
+    if(isSignin){
+      signin({email: inputs.email, password: inputs.password});
+    }else{
+      signup(
+        {
+          firstName:inputs.firstName,
+          lastName:inputs.lastName,
+          email:inputs.email,
+          password:inputs.password,
+          repPassword:inputs.repPassword
+        }
+      )
+    }
+  }
+
 
   return (
     <div>
@@ -97,6 +116,7 @@ export default function AuthModal({isSignin}:{isSignin: boolean}) {
               <button 
                 className='uppercase bg-green-500 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400'
                 disabled={disabled}
+                onClick={handleClick}
               >
                 {renderContent("Sign in", "Create account")}
               </button>
