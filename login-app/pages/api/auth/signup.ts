@@ -1,17 +1,15 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import validator  from 'validator';
-import {PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt'
 import * as jose from 'jose'
-
+import {PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
     if(req.method==='POST'){
         const {firstName, lastName, email, password, repPassword } = req.body;
-        const errors: string[] = [];
-        
+        const errors: string[] = [];        
 
         const validationSchema = [
             {
@@ -72,8 +70,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             .setExpirationTime("24h")
             .sign(secret)
 
-        res.status(200).json({
+        return res.status(200).json({
             response:token
         });
+    }else{        
+        res.status(400).json("Unknown endpoint");
     }
 }
